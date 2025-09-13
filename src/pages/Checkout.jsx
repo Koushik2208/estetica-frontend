@@ -23,11 +23,11 @@ export default function CheckoutPage() {
                   <div>
                     <p className="font-medium">{item.name}</p>
                     <p className="text-sm text-gray-500">
-                      Qty: {item.qty} × ₹{item.price}
+                      Qty: {item.quantity} × ₹{item.price}
                     </p>
                   </div>
                   <p className="font-semibold">
-                    ₹{Number(item.qty) * Number(item.price)}
+                    ₹{Number(item.quantity) * Number(item.price)}
                   </p>
                 </div>
               );

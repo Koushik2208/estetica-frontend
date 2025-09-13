@@ -9,7 +9,7 @@ export default function Cart() {
 
   if (items.length === 0) return null;
 
-  const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   return (
     <aside className="text-center w-[30vw] shrink-0">
@@ -45,7 +45,7 @@ export default function Cart() {
                   </p>
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-gray-600">
-                      {item.qty} × ₹{item.price}
+                      {item.quantity} × ₹{item.price}
                     </p>
                     <div className="flex items-center gap-2">
                       <button
@@ -54,7 +54,7 @@ export default function Cart() {
                       >
                         <Minus color="#000" className="w-[24px] h-[24px]" />
                       </button>
-                      <span>{item.qty}</span>
+                      <span>{item.quantity}</span>
                       <button
                         className="bg-[#6C5DD3] text-white rounded-xl flex justify-center items-center w-[36px] h-[36px]"
                         onClick={() => increment(item._id || item.id)}

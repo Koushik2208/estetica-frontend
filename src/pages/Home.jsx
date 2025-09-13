@@ -15,6 +15,11 @@ export default function Home() {
 
   const debouncedSearch = useDebounce(search, 400);
   const { addItem } = useCartStore();
+  const loadCart = useCartStore((s) => s.loadCart);
+
+  useEffect(() => {
+    loadCart();
+  }, [loadCart]);
 
   useEffect(() => {
     let cancelled = false;
