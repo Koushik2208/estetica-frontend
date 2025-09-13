@@ -1,9 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "../store/cartStore";
+import api from "../api/axios";
 
 export default function CheckoutPage() {
   const { items, total } = useCartStore();
   const navigate = useNavigate();
+
+  const handleAppointment = async () => {
+    try {
+      const productsUsed = items.map((item) => ({
+        product: item._id || item.id,
+        quantity: item.quantity,
+      }));
+
+      const res = await api.post("/appointments", { productsUsed });
+
+      console.log(res.data);
+      alert("appointment created");
+    } catch (error) {
+      console.error(error.response?.data || error.message);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#f0f6ff] p-6">
@@ -82,7 +99,10 @@ export default function CheckoutPage() {
               <span>₹{total}</span>
             </div>
 
-            <button className="w-full mt-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-medium py-2 rounded-lg hover:opacity-90">
+            <button
+              className="w-full mt-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-medium py-2 rounded-lg hover:opacity-90"
+              onClick={handleAppointment}
+            >
               Complete Payment
             </button>
           </div>

@@ -75,23 +75,29 @@ export const useCartStore = create((set, get) => ({
     const item = items.find((i) => (i._id || i.id) === id);
     if (!item) return;
 
-    const newQty = item.quantity - 1;
+    const newQuantity = item.quantity - 1;
 
-    if (newQty <= 0) {
+    if (newQuantity <= 0) {
       set((state) => ({
         items: state.items.filter((i) => (i._id || i.id) !== id),
       }));
-
       try {
         await api.delete(`/cart/${id}`);
       } catch (err) {
         console.error("Delete failed:", err);
+        set({ items });
       }
     } else {
+      const updatedItems = items.map((i) =>
+        (i._id || i.id) === id ? { ...i, quantity: newQuantity } : i
+      );
+      set({ items: updatedItems });
+
       try {
-        await api.post(`/cart/`, { productId: id, quantity: newQty });
+        await api.post(`/cart/`, { productId: id, quantity: newQuantity });
       } catch (err) {
         console.error("Decrement failed:", err);
+        set({ items }); // rollback
       }
     }
   },
