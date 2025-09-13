@@ -3,7 +3,7 @@ import { useCartStore } from "../store/cartStore";
 import api from "../api/axios";
 
 export default function CheckoutPage() {
-  const { items, total } = useCartStore();
+  const { items, total, emptyCart } = useCartStore();
   const navigate = useNavigate();
 
   const handleAppointment = async () => {
@@ -16,6 +16,7 @@ export default function CheckoutPage() {
       const res = await api.post("/appointments", { productsUsed });
 
       console.log(res.data);
+      emptyCart();
       alert("appointment created");
       navigate("/");
     } catch (error) {

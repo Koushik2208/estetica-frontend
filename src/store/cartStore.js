@@ -38,7 +38,8 @@ export const useCartStore = create((set, get) => ({
     set({ items: updatedItems });
 
     try {
-      await api.post("/cart", { productId: id, quantity: 1 });
+      const res = await api.post("/cart", { productId: id, quantity: 1 });
+      set({ total: res.data.total });
     } catch (err) {
       console.error("Failed to add item:", err);
     }
@@ -58,7 +59,8 @@ export const useCartStore = create((set, get) => ({
     }));
 
     try {
-      await api.post(`/cart/`, { productId: id, quantity: newQty });
+      const res = await api.post(`/cart`, { productId: id, quantity: newQty });
+      set({ total: res.data.total });
     } catch (err) {
       console.error("Increment failed:", err);
 
@@ -80,6 +82,7 @@ export const useCartStore = create((set, get) => ({
     if (newQuantity <= 0) {
       set((state) => ({
         items: state.items.filter((i) => (i._id || i.id) !== id),
+        total: state.total - item.price * item.quantity,
       }));
       try {
         await api.delete(`/cart/${id}`);
@@ -94,7 +97,11 @@ export const useCartStore = create((set, get) => ({
       set({ items: updatedItems });
 
       try {
-        await api.post(`/cart/`, { productId: id, quantity: newQuantity });
+        const res = await api.post(`/cart/`, {
+          productId: id,
+          quantity: newQuantity,
+        });
+        set({ total: res.data.total });
       } catch (err) {
         console.error("Decrement failed:", err);
         set({ items }); // rollback
@@ -114,7 +121,7 @@ export const useCartStore = create((set, get) => ({
   },
 
   emptyCart: async () => {
-    set({ items: [] });
+    set({ items: [], total: 0 });
     try {
       await api.delete("/cart"); // clear cart server-side
     } catch (err) {

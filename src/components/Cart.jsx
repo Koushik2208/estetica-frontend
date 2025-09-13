@@ -9,8 +9,6 @@ export default function Cart() {
 
   if (items.length === 0) return null;
 
-  console.log("items:", items);
-
   return (
     <aside className="text-center w-[30vw] shrink-0">
       <div className=" bg-white rounded-xl p-4 h-fit mt-6">

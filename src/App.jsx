@@ -2,8 +2,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Checkout from "./pages/Checkout";
+import { useEffect } from "react";
+import { useCartStore } from "./store/cartStore";
 
 const App = () => {
+  const loadCart = useCartStore((s) => s.loadCart);
+
+  useEffect(() => {
+    loadCart();
+  }, [loadCart]);
   return (
     <div>
       <Navbar />
