@@ -4,17 +4,16 @@ import { Image } from "@imagekit/react";
 import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
-  const { items, decrement, increment, emptyCart } = useCartStore();
+  const { items, decrement, increment, emptyCart, total } = useCartStore();
   const navigate = useNavigate();
 
   if (items.length === 0) return null;
 
-  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  console.log("items:", items);
 
   return (
     <aside className="text-center w-[30vw] shrink-0">
       <div className=" bg-white rounded-xl p-4 h-fit mt-6">
-        {console.log(items)}
         <div className="flex justify-between">
           <h2 className="text-xl font-semibold mb-4">Product Cart</h2>
           <Trash2

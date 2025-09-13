@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useCartStore } from "../store/cartStore";
 
 export default function CheckoutPage() {
-  const { items } = useCartStore();
+  const { items, total } = useCartStore();
   const navigate = useNavigate();
 
   return (
@@ -19,16 +19,26 @@ export default function CheckoutPage() {
 
             {items.map((item) => {
               return (
-                <div className="border rounded-lg p-4 flex justify-between items-center">
-                  <div>
-                    <p className="font-medium">{item.name}</p>
-                    <p className="text-sm text-gray-500">
-                      Qty: {item.quantity} × ₹{item.price}
-                    </p>
+                <div className="border rounded-lg p-4 flex justify-between items-center poppins">
+                  <div className="flex-1">
+                    <p className="font-medium mb-[16px]">{item.name}</p>
+                    <div className="flex justify-between">
+                      <div className="flex flex-col gap-[10px]">
+                        <span>Quantity</span>
+                        <span className="font-semibold">{item.quantity}</span>
+                      </div>
+                      <div className="flex flex-col gap-[10px]">
+                        <span>Unit Price</span>
+                        <span className="font-semibold">{item.price}</span>
+                      </div>
+                      <div className="flex flex-col gap-[10px]">
+                        <span>Total</span>
+                        <span className="font-semibold">
+                          ₹{Number(item.quantity) * Number(item.price)}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <p className="font-semibold">
-                    ₹{Number(item.quantity) * Number(item.price)}
-                  </p>
                 </div>
               );
             })}
@@ -69,7 +79,7 @@ export default function CheckoutPage() {
 
             <div className="border-t pt-3 flex justify-between font-semibold">
               <span>Final Total</span>
-              <span>₹2714.00</span>
+              <span>₹{total}</span>
             </div>
 
             <button className="w-full mt-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-medium py-2 rounded-lg hover:opacity-90">

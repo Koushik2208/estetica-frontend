@@ -3,6 +3,7 @@ import api from "../api/axios"; // your axios instance
 
 export const useCartStore = create((set, get) => ({
   items: [],
+  total: 0,
 
   // Load cart from API on app start
   loadCart: async () => {
@@ -15,7 +16,9 @@ export const useCartStore = create((set, get) => ({
         imageUrl: item.product.imageUrl,
         quantity: item.quantity,
       }));
-      set({ items });
+      const total = res.data.total || 0;
+
+      set({ items, total });
     } catch (err) {
       console.error("Failed to load cart:", err);
     }
