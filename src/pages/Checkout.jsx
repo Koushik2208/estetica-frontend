@@ -17,6 +17,7 @@ export default function CheckoutPage() {
 
       console.log(res.data);
       alert("appointment created");
+      navigate("/");
     } catch (error) {
       console.error(error.response?.data || error.message);
     }
